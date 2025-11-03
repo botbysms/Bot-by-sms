@@ -12,7 +12,7 @@ module.exports = {
     role: 2,
     shortDescription: "Poke with custom image",
     longDescription: "Generate a poke image with the mentioned user using a custom background.",
-    category: "funny",
+    category: "18+",
     guide: "{pn} @mention"
   },
 
