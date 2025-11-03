@@ -1,90 +1,112 @@
-const fs = require("fs-extra");
-const axios = require("axios");
+-cmd install propose.js const fs = require("fs-extra");
 const Canvas = require("canvas");
 const path = require("path");
 
 module.exports = {
   config: {
     name: "propose",
-    aliases: ["propose"],
-    version: "1.0",
-    author: "T A N J I L ",
+    aliases: ["prps"],
+    version: "3.5",
+    author: "xalman",
     countDown: 5,
     role: 0,
     shortDescription: "Propose with custom image",
-    longDescription: "Generate a propose image with the mentioned user using a custom background.",
-    category: "funny",
+    longDescription: "Generate a propose image with avatars perfectly placed over characters’ heads (swapped).",
+    category: "fun",
     guide: "{pn} @mention"
   },
 
-  onStart: async function ({ api, message, event, usersData }) {
+  onStart: async function ({ message, event, usersData }) {
     const mention = Object.keys(event.mentions);
-    if (mention.length === 0) return message.reply("Please mention someone to propose.");
+    if (mention.length === 0)
+      return message.reply("❗ দয়া করে কাউকে mention করো।");
 
-    let senderID = event.senderID;
-    let mentionedID = mention[0];
+    const senderID = event.senderID;
+    const mentionedID = mention[0];
 
     try {
-      // Get avatar URLs
-      const avatar1 = await usersData.getAvatarUrl(mentionedID); // left
-      const avatar2 = await usersData.getAvatarUrl(senderID);    // right
+      // 🟢 Get avatar URLs
+      const avatarSender =
+        (await usersData.getAvatarUrl(senderID)) ||
+        `https://graph.facebook.com/${senderID}/picture?width=512&height=512`;
+      const avatarMentioned =
+        (await usersData.getAvatarUrl(mentionedID)) ||
+        `https://graph.facebook.com/${mentionedID}/picture?width=512&height=512`;
 
-      // Load avatars
-      const [avatarImg1, avatarImg2] = await Promise.all([
-        Canvas.loadImage(avatar1),
-        Canvas.loadImage(avatar2)
+      // 🖼️ Load all images
+      const [avatarImgSender, avatarImgMentioned, bg] = await Promise.all([
+        Canvas.loadImage(avatarSender),
+        Canvas.loadImage(avatarMentioned),
+        Canvas.loadImage("https://i.postimg.cc/vmZqx4rH/20251103-115147.png")
       ]);
 
-      // Load and scale background
-      const bgUrl = "http://remakeai-production.up.railway.app/Remake_Ai/Nyx_Remake_1746746522031.jpg";
-      const bgRes = await axios.get(bgUrl, { responseType: "arraybuffer" });
-      const bg = await Canvas.loadImage(bgRes.data);
-
-      // Set new canvas size
-      const canvasWidth = 900;
-      const canvasHeight = 600;
-
+      // 🎨 Canvas setup
+      const canvasWidth = 1280;
+      const canvasHeight = 1280;
       const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
       const ctx = canvas.getContext("2d");
 
-      // Draw scaled background
+      // Draw background
       ctx.drawImage(bg, 0, 0, canvasWidth, canvasHeight);
 
-      // Avatar settings
-      const avatarSize = 230;
-      const y = canvasHeight / 2 - avatarSize - 90;
+      // 👥 Avatar settings
+      const avatarSize = Math.floor(canvasWidth * 0.11); // ছোট আকার
+      const girlHead = { x: 330, y: 130 }; // left character
+      const boyHead = { x: 760, y: 300 };  // right character
 
-      // Left (mentioned user)
+      // 💙 Mentioned user avatar on girl's head (left side)
       ctx.save();
       ctx.beginPath();
-      ctx.arc(150 + avatarSize / 2, y + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2);
-      ctx.closePath();
+      ctx.arc(
+        girlHead.x + avatarSize / 2,
+        girlHead.y + avatarSize / 2,
+        avatarSize / 2,
+        0,
+        Math.PI * 2
+      );
       ctx.clip();
-      ctx.drawImage(avatarImg1, 150, y, avatarSize, avatarSize);
+      ctx.drawImage(avatarImgMentioned, girlHead.x, girlHead.y, avatarSize, avatarSize);
       ctx.restore();
 
-      // Right (sender)
+      // ❤️ Sender avatar on boy's head (right side)
       ctx.save();
       ctx.beginPath();
-      ctx.arc(canvasWidth - 150 - avatarSize / 2, y + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2);
-      ctx.closePath();
+      ctx.arc(
+        boyHead.x + avatarSize / 2,
+        boyHead.y + avatarSize / 2,
+        avatarSize / 2,
+        0,
+        Math.PI * 2
+      );
       ctx.clip();
-      ctx.drawImage(avatarImg2, canvasWidth - 150 - avatarSize, y, avatarSize, avatarSize);
+      ctx.drawImage(avatarImgSender, boyHead.x, boyHead.y, avatarSize, avatarSize);
       ctx.restore();
 
-      // Save and send image
-      const imgPath = path.join(__dirname, "tmp", `${senderID}_${mentionedID}_propose.png`);
+      // 💾 Save image
+      const imgPath = path.join(
+        __dirname,
+        "tmp",
+        `${senderID}_${mentionedID}_propose.png`
+      );
       await fs.ensureDir(path.dirname(imgPath));
-      fs.writeFileSync(imgPath, canvas.toBuffer("image/png"));
+      await fs.writeFile(imgPath, canvas.toBuffer("image/png"));
 
-      message.reply({
-        body: "Will you marry me?",
-        attachment: fs.createReadStream(imgPath)
-      }, () => fs.unlinkSync(imgPath));
+      // 💬 Send result
+      const text =
+        senderID === mentionedID
+          ? "নিজেকেই প্রপোজ করলে? 😂❤️"
+          : "💍 I law view bpy 🥺❤️";
 
+      await message.reply(
+        {
+          body: text,
+          attachment: fs.createReadStream(imgPath)
+        },
+        () => fs.unlink(imgPath)
+      );
     } catch (err) {
-      console.error("Error in propose command:", err);
-      message.reply("There was an error creating the propose image.");
+      console.error("❌ Error in propose command:", err);
+      message.reply(`❌ Error creating image:\n${err.message}`);
     }
   }
 };
