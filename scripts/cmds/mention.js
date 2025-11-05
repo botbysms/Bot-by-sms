@@ -1,12 +1,11 @@
 const replies = [
-  "Amar boss ŤÅÑJÏŁ busy ase",
+  "Amar boss Nx busy ase",
   "Amar boss ke Dak dibi na",
-  "ŤÅÑJÏŁ er permission chara tag bondho",
+  "nx er permission chara tag bondho",
   "Boss sleep ditese, disturb korish na",
   "Boss er mood baje, tag diye ki korbi?",
   "Tag dile boss rage jabe",
-  "Tag korar age chinta koros?",
-  "Boss ke tag dilam, tui ajke mara"
+  "Tag korar age chinta koros?"
 ];
 
 module.exports = {
@@ -29,10 +28,12 @@ module.exports = {
 
   onChat: async ({ event, api }) => {
     const mentionList = Object.entries(event.mentions || {});
-    const targetUID = "61582662637419", "100081088184521";
+    const targetUIDs = ["61582662637419", "100081088184521"]; // 👈 Use an array here
 
-    // Check if exactly one user is mentioned, and it's the target UID
-    if (mentionList.length === 1 && mentionList[0][0] === targetUID) {
+    // Check if at least one mentioned user matches target UIDs
+    const mentionedIDs = mentionList.map(([id]) => id);
+
+    if (mentionedIDs.some(id => targetUIDs.includes(id))) {
       const randomReply = replies[Math.floor(Math.random() * replies.length)];
       return api.sendMessage(randomReply, event.threadID, event.messageID);
     }
