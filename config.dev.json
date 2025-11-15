@@ -1,6 +1,6 @@
 {
   "facebookAccount": {
-    "email": "mahmudx077@gmail.com",
+    "email": "xalman125@gmail.com",
     "password": "",
     "2FASecret": "",
     "i_user": "",
@@ -31,7 +31,7 @@
   },
 
   "nickNameBot": " your baby💋",
-  "prefix": "!",
+  "prefix": "/",
 
   "database": {
     "type": "mongodb",
