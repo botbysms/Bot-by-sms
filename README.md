@@ -1,6 +1,6 @@
-#  Hello, I'm Salman Hossain.!
+#  Hello, I'm Sabbir Mahamud Sohan 
 
-![Banner](https://i.ibb.co/0RsQCX8v/received-1848769335994184.jpg)
+![Banner](https://photos.app.goo.gl/9yu4Hs2B9Kj81LRi8)
 
 
 
@@ -9,19 +9,19 @@
 ## About Me
 
 - Currently exploring new knowledge and skills
--  Not in school right now, but working hard for a better future
-- 🎮 Passionate about: Gaming (Free Fire 6348433559), Music
-- Location: Madhobdi, Narsingdi,Dhaka-
+-  
+- 🎮 Passionate about: Gaming (Efootball (ZeYnoxi), Music
+- Location: Adda, Barura,Cumilla-
 
 ---
 
 
 ## Connect With Me
 
-- Facebook: [MÂYBÊ NX](https://www.facebook.com/nx210.2.0.is.back )
-- 📱 WhatsApp: +8801876118312
+- Facebook: [S M Sohan](https://www.facebook.com/s.m.sohan.826773 )
+- 📱 WhatsApp: +8801806806797
 
 ---
 ---
 
-## 💖 Thanks for anu6969,ntkhang,amitmax,gojo999,xnil and my friend siyuu🫶 ,
+## 💖 Thanks for Maybe nx
