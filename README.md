@@ -11,7 +11,7 @@
 - Currently exploring new knowledge and skills
 -  My name is Sohan but you can call me Ryuk. Don't trust me…
 I have a beautiful heart, an innocent face, and a criminal mindset.
-- 🎮 Passionate about: Gaming (Efootball (ZeYnoxi), Music
+- 🎮 Passionate about: Gaming (Efootball (Echo_Atlas), Music
 - Location: Adda, Barura,Cumilla-
 
 ---
