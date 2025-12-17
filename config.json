@@ -21,15 +21,15 @@
   },
   
   "adminBot": [
-    "100095163453482",
-    "100095163453482"
+    "100058751258050",
+    "100058751258050"
   ],
   "whiteListMode": {
     "enable": false,
     "whiteListIds": [],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": "‌♡your baby♡",
+  "nickNameBot": "‌♡Ryuk bbz♡",
   "prefix": "/",
   "database": {
     "type": "mongodb",
